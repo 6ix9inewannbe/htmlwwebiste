@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookie Clicker</title>
+<style>
+body {
+background: linear-gradient(to bottom right, darkred, darkblue); /* Gradient background */
+color: white; /* Text color for better contrast */
+font-family: Arial, sans-serif;
+}
+#cookieButton, #upgradeButton, #autoClickerButton, #proClickerButton {
+padding: 10px 20px;
+font-size: 16px;
+margin: 5px;
+cursor: pointer;
+}
+#secretBlock {
+position: fixed;
+bottom: 10px;
+right: 10px;
+width: 20px;
+height: 20px;
+background-color: black; /* Black color for visibility */
+cursor: pointer;
+}
+</style>
+</head>
+<body>
+<h1>Cookie Clicker</h1>
+<button id="cookieButton" onclick="clickCookie()">🍪 Click the Cookie!</button>
+<button id="upgradeButton" onclick="upgradeClick()">Upgrade Click (+1)</button>
+<button id="autoClickerButton" onclick="buyAutoClicker()">Buy Auto Clicker (90 cookies)</button>
+<input type="number" id="proClickerCount" value="1" min="1" style="width: 50px;">
+<button id="proClickerButton" onclick="buyProClicker()">Buy Pro Clicker (600 cookies each)</button>
+<p>Cookies: <span id="cookieCount">0</span></p>
+<p>Click Power: <span id="clickPower">1</span></p>
+<!-- Black block for infinite cookies -->
+<div id="secretBlock" onclick="getInfiniteCookies()"></div>
+<script>
+let cookieCount = 0;
+let clickPower = 1;
+let autoClickerActive = false;
+function clickCookie() {
+cookieCount += clickPower;
+document.getElementById('cookieCount').textContent = cookieCount;
+}
+function upgradeClick() {
+if (cookieCount >= 1) {
+cookieCount -= 1;
+clickPower++;
+document.getElementById('cookieCount').textContent = cookieCount;
+document.getElementById('clickPower').textContent = clickPower;
+} else {
+alert("Not enough cookies to upgrade!");
+}
+}
+function buyAutoClicker() {
+if (cookieCount >= 90 && !autoClickerActive) {
+cookieCount -= 90;
+document.getElementById('cookieCount').textContent = cookieCount;
+autoClickerActive = true;
+setInterval(() => {
+cookieCount++;
+document.getElementById('cookieCount').textContent = cookieCount;
+}, 1000); // Auto-click every second
+} else if (autoClickerActive) {
+alert("Auto Clicker already purchased!");
+} else {
+alert("Not enough cookies to buy Auto Clicker!");
+}
+}
+function buyProClicker() {
+const proClickerCount = parseInt(document.getElementById('proClickerCount').value);
+const totalCost = 600 * proClickerCount;
+if (cookieCount >= totalCost) {
+cookieCount -= totalCost;
+clickPower += 10 * proClickerCount;
+document.getElementById('cookieCount').textContent = cookieCount;
+document.getElementById('clickPower').textContent = clickPower;
+} else {
+alert("Not enough cookies to buy Pro Clickers!");
+}
+}
+function getInfiniteCookies() {
+cookieCount = Infinity;
+document.getElementById('cookieCount').textContent = '∞';
+alert("You now have infinite cookies!");
+}
+</script>
+</body>
+</html>
